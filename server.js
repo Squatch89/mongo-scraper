@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const hbars = require('express-handlebars');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -9,13 +10,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.set('views', path.join(__dirname, 'views'));
 app.engine("handlebars", hbars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("public"));
 
+app.get("/", function(req, res) {
+    res.render("index");
+});
 
 app.get("/scrape", function(req,res) {
     request("", function(error, response, html) {
@@ -31,7 +36,7 @@ app.get("/scrape", function(req,res) {
             }
         })
     });
-    res.send("scrape complete");
+    res.render("index");
 });
 
 

@@ -13,39 +13,39 @@ const PORT = process.env.PORT || 3000;
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static("public"));
 
 app.set('views', path.join(__dirname, 'views'));
 app.engine("handlebars", hbars({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
-app.use(express.static("public"));
-
-// app.get("/", function(req, res) {
-//     res.render("index");
-// });
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/scraper", {
     useMongoClient: true
 });
 
+let scraped = {};
+
 app.get("/scrape", function (req, res) {
-    
-    let scraped = {};
     
     request("https://www.theonion.com/", function (error, response, html) {
         const $ = cheerio.load(html);
         
+        
         $(".headline--wrapper").each(function (i, element) {
-            const headline = $(element).children("a").text();
-            const summary = $(element).children("p").text();
-            const link = $(element).children("a").attr("href");
+    
             
-            scraped = {
-                headline,
-                summary,
-                link
-            };
+            
+            scraped.headline = $(this).children("a").text();
+            scraped.summary = $(this).children("p").text();
+            scraped.link = $(this).children("a").attr("href");
+            
+            // scraped = {
+            //     headline,
+            //     summary,
+            //     link
+            // };
             
             console.log("---------------");
             console.log(scraped);
@@ -54,7 +54,8 @@ app.get("/scrape", function (req, res) {
             db.Article
                 .create(scraped)
                 .then(function (dbArticle) {
-                    res.render("index", scraped);
+                    // console.log(dbArticle);
+                    res.send("scrape complete");
                 })
                 .catch(function (err) {
                     res.json(err);
@@ -66,7 +67,9 @@ app.get("/scrape", function (req, res) {
 app.get("/articles", function (req, res) {
     db.Article.find({})
         .then(function (articles) {
-            res.json(articles);
+            // res.json(articles);
+            console.log(articles);
+            res.render("index", {scraped: articles});
         }).catch(function (err) {
         if (err) {
             console.log(err);

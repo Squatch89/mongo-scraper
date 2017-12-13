@@ -1,25 +1,7 @@
 <div class="container">
-    <!--<div class="wrapper">-->
-    <!--<div class="collapsible-header popout">-->
-    <!--this is going to hold headline-->
-    <!--</div>-->
-    <!--<div class="summary">-->
-    <!--this is going to hold the summary-->
-    <!--</div>-->
-    <!--<div class="link">-->
-    <!--<a href="#">this will hold the link </a>-->
-    <!--</div>-->
-    <!--<div class="comments">-->
-    <!--this will hold comments-->
-    <!--</div>-->
-    <!--<form>-->
-    <!--<textarea></textarea>-->
-    <!--<button class="submit">submit</button>-->
-    <!--</form>-->
-    <!--</div>-->
 
     <div class="row">
-        <div class="col xs 12">
+        <div class="col s 12">
             <ul class="collapsible" data-collapsible="expandable">
     {{#each scraped}}
                 <li>
@@ -28,12 +10,12 @@
                 </li>
                 <li>
                     <div class="collapsible-header"><i class="material-icons">subject</i>Comments</div>
-                    <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                    <div class="collapsible-body"><span>this should be some handlebars function to handle comments maybe a partial</span></div>
                 </li>
                 <li>
                     <div class="collapsible-header"><i class="material-icons">add</i>Add Comment</div>
                     <div class="collapsible-body">
-                        <span>Lorem ipsum dolor sit amet.</span>
+                        <span>Add a Comment</span>
                         <form>
                             <textarea></textarea>
                             <button class="submit">Submit</button>
@@ -47,4 +29,4 @@
 
 </div>
 
-<script src="/assets/js/app.js"></script>
+<script src="./assets/js/app.js"></script>

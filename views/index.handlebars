@@ -5,7 +5,7 @@
             <ul class="collapsible" data-collapsible="expandable">
     {{#each scraped}}
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">description</i>{{headline}}</div>
+                    <div class="collapsible-header" data-id="{{_id}}"><i class="material-icons">description</i>{{headline}}</div>
                     <div class="collapsible-body"><span><a href="{{link}}" target="_blank">{{summary}}</a></span></div>
                 </li>
                 <li>

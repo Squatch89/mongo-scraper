@@ -7,7 +7,7 @@ $(document).on("click", "submit", function(event){
     console.log("button clicked");
     $.ajax({
         method: "POST",
-        url: "/post"
+        url: `/articles/${this.id}`
     }).then(function(data){
         console.log(data);
     });

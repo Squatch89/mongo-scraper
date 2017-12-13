@@ -51,15 +51,18 @@ app.get("/scrape", function (req, res) {
             console.log(scraped);
             console.log("---------------");
             
-            db.Article
-                .create(scraped)
-                .then(function (dbArticle) {
-                    // console.log(dbArticle);
-                    res.send("scrape complete");
-                })
-                .catch(function (err) {
-                    res.json(err);
-                })
+            if (scraped.headline && scraped.link)
+            {
+                db.Article
+                    .create(scraped)
+                    .then(function (dbArticle) {
+                        // console.log(dbArticle);
+                        res.send("scrape complete");
+                    })
+                    .catch(function (err) {
+                        res.json(err);
+                    })
+            }
         });
     });
 });

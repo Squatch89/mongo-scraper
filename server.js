@@ -8,8 +8,6 @@ const request = require('request');
 const logger = require("morgan");
 const db = require("./models");
 
-
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -20,7 +18,6 @@ app.use(express.static("public"));
 app.set('views', path.join(__dirname, 'views'));
 app.engine("handlebars", hbars({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
-
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/scraper", {
@@ -34,20 +31,11 @@ app.get("/scrape", function (req, res) {
     request("https://www.theonion.com/", function (error, response, html) {
         const $ = cheerio.load(html);
         
-        
         $(".headline--wrapper").each(function (i, element) {
-    
-            
             
             scraped.headline = $(this).children("a").text();
             scraped.summary = $(this).children("p").text();
             scraped.link = $(this).children("a").attr("href");
-            
-            // scraped = {
-            //     headline,
-            //     summary,
-            //     link
-            // };
             
             console.log("---------------");
             console.log(scraped);

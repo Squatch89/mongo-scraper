@@ -41,18 +41,15 @@ app.get("/scrape", function (req, res) {
             console.log(scraped);
             console.log("---------------");
             
-            if (scraped.headline && scraped.link)
-            {
-                db.Article
-                    .create(scraped)
-                    .then(function (dbArticle) {
-                        // console.log(dbArticle);
-                        res.send("scrape complete");
-                    })
-                    .catch(function (err) {
-                        res.json(err);
-                    })
-            }
+            db.Article
+                .create(scraped)
+                .then(function (dbArticle) {
+                    // console.log(dbArticle);
+                    res.send("scrape complete");
+                })
+                .catch(function (err) {
+                    res.json(err);
+                })
         });
     });
 });
@@ -83,17 +80,17 @@ app.get("/articles/:id", function (req, res) {
     });
 });
 
-app.post("/articles/:id", function(req, res) {
+app.post("/articles/:id", function (req, res) {
     console.log(req.body);
     db.Comment.create(req.body)
-        .then(function(dbComment) {
-            return db.Article.findOneAndUpdate({_id: req.params.id}, {comment: dbComment._id}, {new: true});
+        .then(function (dbComment) {
+            return db.Article.findOneAndUpdate({_id: req.params.id}, { $addToSet: { comment: dbComment._id } }, {new: true});
         })
-        .then(function(dbArticle) {
+        .then(function (dbArticle) {
             // res.send("made a comment");
             res.json(dbArticle);
         })
-        .catch(function(err) {
+        .catch(function (err) {
             if (err) {
                 console.log(err);
             }

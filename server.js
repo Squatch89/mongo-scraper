@@ -8,6 +8,8 @@ const request = require('request');
 const logger = require("morgan");
 const db = require("./models");
 
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -84,6 +86,7 @@ app.get("/articles/:id", function (req, res) {
     db.Article.findOne({_id: req.params.id})
         .populate("comment")
         .then(function (articleComment) {
+            console.log(articleComment);
             res.json(articleComment)
         }).catch(function (err) {
         if (err) {
@@ -93,11 +96,13 @@ app.get("/articles/:id", function (req, res) {
 });
 
 app.post("/articles/:id", function(req, res) {
+    console.log(req.body);
     db.Comment.create(req.body)
         .then(function(dbComment) {
             return db.Article.findOneAndUpdate({_id: req.params.id}, {comment: dbComment._id}, {new: true});
         })
         .then(function(dbArticle) {
+            // res.send("made a comment");
             res.json(dbArticle);
         })
         .catch(function(err) {
@@ -106,7 +111,6 @@ app.post("/articles/:id", function(req, res) {
             }
         })
 });
-
 
 app.listen(PORT, function () {
     console.log(`App running on port ${PORT}!`);

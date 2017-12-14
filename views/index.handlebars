@@ -1,32 +1,17 @@
-<div class="container">
-
-    <div class="row">
-        <div class="col s 12">
-            <ul class="collapsible" data-collapsible="expandable">
+<div class="wrapper">
     {{#each scraped}}
-                <li>
-                    <div class="collapsible-header" data-id="{{_id}}"><i class="material-icons">description</i>{{headline}}</div>
-                    <div class="collapsible-body"><span><a href="{{link}}" target="_blank">{{summary}}</a></span></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Comments</div>
-                    <div class="collapsible-body"><span>this should be some handlebars function to handle comments maybe a partial</span></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">add</i>Add Comment</div>
-                    <div class="collapsible-body">
-                        <span>Add a Comment</span>
-                        <form>
-                            <textarea></textarea>
-                            <button class="submit">Submit</button>
-                        </form>
-                    </div>
-                </li>
-    {{/each}}
-            </ul>
+        <div class="article">
+            <span class="headline" data-id="{{_id}}"><h4>{{headline}}</h4></span>
+            <span><a href="{{link}}" target="_blank">{{summary}}</a></span>
+            <span class="comments" data-id="{{_id}}">Comment</span>
+            <span class="commentBody"></span>
+            <span>
+                    <textarea class="commentArea"></textarea>
+                    <button class="submit" data-id="{{_id}}">Submit</button>
+            </span>
         </div>
-    </div>
-
+    {{/each}}
 </div>
 
 <script src="./assets/js/app.js"></script>
+

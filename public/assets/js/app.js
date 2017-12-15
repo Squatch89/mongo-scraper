@@ -16,8 +16,7 @@ $("#scrape").on("click", function () {
 $(document).on("click", ".submit", function (event) {
     event.preventDefault();
     console.log("button clicked");
-    console.log($(this).attr("data-id"));
-    console.log($(".commentArea").val());
+    
     $.ajax({
         method: "POST",
         url: `/articles/${$(this).attr("data-id")}`,
@@ -41,7 +40,7 @@ $(document).on("click", ".comments", function () {
         // console.log(data);
         console.log(data.comment.body);
         for (let i = 0; i < data.comment.length; i++) {
-            $("#" + commentId).append(`<span>${data.comment[i].body}</span>`);
+            $("#" + commentId).addClass("commentHolder").append(`<div>${data.comment[i].body}</div>`);
         }
     })
 });

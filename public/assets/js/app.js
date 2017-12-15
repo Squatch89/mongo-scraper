@@ -1,7 +1,17 @@
-$(document).ready(function () {
-    $('.collapsible').collapsible();
-    
+$("#scrape").on("click", function () {
+    $.ajax({
+        method: "GET",
+        url: "/scrape"
+    }).then(function (data) {
+        $.ajax({
+            method: "GET",
+            url: "/"
+        }).then(function (data) {
+            console.log("yay");
+        })
+    })
 });
+
 
 $(document).on("click", ".submit", function (event) {
     event.preventDefault();
@@ -15,10 +25,13 @@ $(document).on("click", ".submit", function (event) {
     }).then(function (data) {
         console.log(data);
     });
+    $(".commentArea").val("");
 });
 
 $(document).on("click", ".comments", function () {
+    
     let commentId = $(this).attr("data-id");
+    $("#" + commentId).empty();
     console.log("this is commentId");
     console.log(commentId);
     $.ajax({

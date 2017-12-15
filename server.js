@@ -8,6 +8,7 @@ const request = require('request');
 const logger = require("morgan");
 const db = require("./models");
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -28,14 +29,15 @@ let scraped = {};
 
 app.get("/scrape", function (req, res) {
     
-    request("https://www.theonion.com/", function (error, response, html) {
+    request("https://www.nytimes.com/section/politics?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Politics&WT.nav=page", function (error, response, html) {
         const $ = cheerio.load(html);
         
-        $(".headline--wrapper").each(function (i, element) {
+        $(".story-link").each(function (i, element) {
             
-            scraped.headline = $(this).children("a").text();
-            scraped.summary = $(this).children("p").text();
-            scraped.link = $(this).children("a").attr("href");
+            scraped.headline = $(element).children("div").find("h2").text();
+            scraped.link = $(element).attr("href");
+            scraped.summary = $(element).children("div").find("p").text();
+            
             
             console.log("---------------");
             console.log(scraped);
@@ -48,13 +50,14 @@ app.get("/scrape", function (req, res) {
                     res.send("scrape complete");
                 })
                 .catch(function (err) {
-                    res.json(err);
+                   console.log(err);
                 })
         });
     });
+    // res.redirect("/");
 });
 
-app.get("/articles", function (req, res) {
+app.get("/", function (req, res) {
     db.Article.find({})
         .then(function (articles) {
             // res.json(articles);
@@ -84,7 +87,7 @@ app.post("/articles/:id", function (req, res) {
     console.log(req.body);
     db.Comment.create(req.body)
         .then(function (dbComment) {
-            return db.Article.findOneAndUpdate({_id: req.params.id}, { $addToSet: { comment: dbComment._id } }, {new: true});
+            return db.Article.findOneAndUpdate({_id: req.params.id}, {$addToSet: {comment: dbComment._id}}, {new: true});
         })
         .then(function (dbArticle) {
             // res.send("made a comment");

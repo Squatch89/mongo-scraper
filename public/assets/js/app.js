@@ -8,6 +8,7 @@ $("#scrape").on("click", function () {
             url: "/"
         }).then(function (data) {
             console.log("yay");
+            location.reload();
         })
     })
 });
@@ -16,7 +17,10 @@ $("#scrape").on("click", function () {
 $(document).on("click", ".submit", function (event) {
     event.preventDefault();
     console.log("button clicked");
-    
+    console.log($(this).attr("data-id"));
+    let commentId = $(this).attr("data-id");
+    console.log("this is commentId");
+    console.log(commentId);
     $.ajax({
         method: "POST",
         url: `/articles/${$(this).attr("data-id")}`,

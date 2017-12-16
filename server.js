@@ -47,10 +47,12 @@ app.get("/scrape", function (req, res) {
                 .create(scraped)
                 .then(function (dbArticle) {
                     // console.log(dbArticle);
-                    res.send("scrape complete");
+                    // res.send("scrape complete");
+                    res.redirect("/");
                 })
                 .catch(function (err) {
                    console.log(err);
+                   res.send("errors or duplicates");
                 })
         });
     });

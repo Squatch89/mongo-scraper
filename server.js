@@ -21,9 +21,18 @@ app.engine("handlebars", hbars({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/scraper", {
-    useMongoClient: true
-});
+
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+}
+else {
+    mongoose.connect("mongodb://localhost/scraper", {
+        useMongoClient: true
+    });
+}
+
+
+
 
 let scraped = {};
 

@@ -16,15 +16,19 @@ $("#scrape").on("click", function () {
 
 $(document).on("click", ".submit", function (event) {
     event.preventDefault();
+    const id = $(this).attr("data-id");
     console.log("button clicked");
     console.log($(this).attr("data-id"));
+    console.log("this is the comment");
+    console.log($(`#Comment${id}`).val());
+    
     let commentId = $(this).attr("data-id");
     console.log("this is commentId");
     console.log(commentId);
     $.ajax({
         method: "POST",
         url: `/articles/${$(this).attr("data-id")}`,
-        data: {body: $(".commentArea").val()}
+        data: {body: $(`#Comment${id}`).val()}
     }).then(function (data) {
         console.log(data);
     });
@@ -48,4 +52,3 @@ $(document).on("click", ".comments", function () {
         }
     })
 });
-
